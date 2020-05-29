@@ -1,11 +1,10 @@
-
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ice;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using Fivet.ZeroIce;
+using Fivet.ZeroIce.model;
 namespace Fivet.Server
 {
     internal class FivetService : IHostedService
@@ -25,14 +24,26 @@ namespace Fivet.Server
         /// </summary>
         private readonly Communicator _communicator;
 
+        /// <summary>
+        /// Sistema
+        /// </summary>
+        private readonly SistemaDisp_ _sistema;
+
+        /// <summary>
+        /// Contratos
+        /// </summary>
+        private readonly ContratosDisp_ _contratos;
 
         /// <summary>
         /// Fivet Service Constructor
         /// </summary>
-        /// <param name="logger"></param> Logger DI
-        public FivetService(ILogger<FivetService> logger)
+        /// <param name="logger">Logger DI</param> 
+        public FivetService(ILogger<FivetService> logger, SistemaDisp_ sistema, ContratosDisp_ contratos)
         {
             _logger = logger;
+            _logger.LogDebug("Building Fivet Service");
+            _contratos = contratos;
+            _sistema = sistema;
             _communicator = buildCommunicator();
 
         }
@@ -48,11 +59,9 @@ namespace Fivet.Server
             // Adapter
             var adapter = _communicator.createObjectAdapterWithEndpoints("Sistema","tcp -z -t 15000 -p "+ _port);
 
-            // Interface
-            Fivet.ZeroIce.model.Sistema sistema = new SistemaImpl();
-
             // Register the communicator and activate
-            adapter.add(sistema,Util.stringToIdentity("Sistema"));
+            adapter.add(_sistema,Util.stringToIdentity("Sistema"));
+            adapter.add(_contratos,Util.stringToIdentity("Contratos"));
             adapter.activate();
 
             return Task.CompletedTask;
@@ -85,18 +94,6 @@ namespace Fivet.Server
             initializationData.properties = properties;
 
             return Ice.Util.initialize(initializationData);
-        }
-    }
-
-    /// <summary>
-    /// Implementation of System interface
-    /// </summary>
-
-    public class SistemaImpl : Fivet.ZeroIce.model.SistemaDisp_
-    {
-        public override long getDelay(long clientTime, Current current = null)
-        {
-            return DateTime.Now.Ticks - clientTime;
         }
     }
 
