@@ -38,3 +38,6 @@ msbuild.wrn
 
 # Zero Ice
 generated/
+
+#SQL Lite DB
+fivet.db
