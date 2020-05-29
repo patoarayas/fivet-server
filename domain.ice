@@ -26,13 +26,16 @@
 ["java:package:cl.ucn.disc.pdis.fivet.zeroice", "cs:namespace:Fivet.ZeroIce"]
 module model {
 
+   /// Fechas ISO_ZONED_DATE_TIME
+
      /**
      * Persona
      */
+     ["cs:property"]
      class Persona{
 
         /** Identificador Numérico*/
-        int id;
+        int uid;
         /** Rut */
         string rut;
         /** Nombre */
@@ -55,10 +58,11 @@ module model {
      /**
      *  Ficha de paciente
      */
-     class FichaPaciente {
+     ["cs:property"]
+     class Ficha {
 
          /** Identificador numérico */
-         int id;
+         int uid;
          /** Numero de registro */
          int numeroRegistro;
          /** Nombre */
@@ -86,8 +90,11 @@ module model {
      /**
      * Control del paciente
      */
+     ["cs:property"]
      class Control{
 
+        /** Id */
+        int uid;
         /** Fecha */
         string fechaControl;
         /** Fecha proximo control */
@@ -131,12 +138,41 @@ module model {
      * Contratos del sistema
      */
      interface Contratos {
+
         /**
         * Crea una ficha para un paciente
         * @param ficha: Ficha del paceinte a crear
-        *
+        * @return Ficha creada
         */
-        bool crearFicha(FichaPaciente ficha);
+        Ficha crearFicha(Ficha ficha);
+
+        /** Crear persona (dueño)
+        * @param persona: Persona a ser creada
+        * @return Persona creada
+        */
+        Persona crearPersona(Persona persona);
+
+        /** 
+        * Añadir un control
+        * @param numeroFicha: Numero ficha 
+        * @param control: Control a ser creado
+        * @return Control creado
+        */
+        Control crearControl(int numeroFicha, Control control);
+
+        /**
+        * Obtener Ficha
+        * @param numeroFicha: numero de ficha del paciente
+        * @return Ficha del paciente
+        */
+        Ficha obtenerFicha(int numeroFicha);
+
+        /**
+        * Obtener Persona
+        * @param rut: Rut de la persona
+        * @return Persona
+        */
+        Persona obtenerPersonaPorRut(string rut);
 
         /**
         * Buscar una ficha por número, nombre o rut
@@ -144,26 +180,26 @@ module model {
         * @return Ficha del paciente
         * TODO: En el caso de que sea por nombre debe retornar secuencia de fichas.
         */
-        FichaPaciente buscarFichaPorRut(string key);
+        // FichaPaciente buscarFichaPorRut(string key);
 
         /**
         * Agrega un control a una ficha
         * @param numeroFicha : El numero de ficha
         * @param control : El control a agregar
         */
-        bool agregarControl(int numeroFicha, Control control);
+        // bool agregarControl(int numeroFicha, Control control);
 
         /** Crear un carnet de paciente
         * @param ficha : La ficha del paciente
         * TODO: Que significa el carnet de paciente?
         */
-        bool crearCarnetPaciente(FichaPaciente ficha);
+        // bool crearCarnetPaciente(FichaPaciente ficha);
 
         /** Agregar foto del paciente
         * @param numeroFicha : Id del paciente
         * @param urlFoto : Direccion de la foto
         */
-        bool agregarFoto(int numeroFicha, string urlFoto);
+        // bool agregarFoto(int numeroFicha, string urlFoto);
 
      }
 }
