@@ -9,7 +9,10 @@ namespace Fivet.Dao
         /// Connection to the Db
         /// </summary>
         public DbSet<Persona> Personas {get; set;}
-
+        public DbSet<Ficha> Fichas {get; set;}
+        public DbSet<Control> Controles {get; set;}
+        public DbSet<Examen> Examenes {get;set}
+        
         /// <summary>
         /// Configuration
         /// </summary>
@@ -29,6 +32,7 @@ namespace Fivet.Dao
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Persona 
             modelBuilder.Entity<Persona>(p => 
             {
                 p.HasKey(p => p.uid);
@@ -36,6 +40,23 @@ namespace Fivet.Dao
                 p.HasIndex(p => p.email).IsUnique();
             });
 
+            // Ficha
+            modelBuilder.Entity<Ficha>(f =>
+            {
+                f.HasKey(f => f.uid);
+                f.Property(f => f.numeroRegistro).IsRequired();
+
+            });
+
+            // Control
+            modelBuilder.Entity<Control>(c =>
+            {
+                c.HasKey(c => c.uid);
+            });
+            
+
+
+            // Insert data to db
             modelBuilder.Entity<Persona>().HasData(
                 new Persona()
                 {
