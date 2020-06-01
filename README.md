@@ -1,8 +1,8 @@
-# Servidor Sistema FiVet
+# FiVet server
 
-Software servidor dessarrollado bajo la plataforma .NET y usando ZeroC para la comunicación cliente-servidor. Proyecto realizado para la asignatura Proyecto de Desarrollo e Integración de Soluciones.
+Software servidor desarrollado bajo la plataforma .NET y usando ZeroC para la comunicación cliente-servidor. Proyecto realizado para la asignatura Proyecto de Desarrollo e Integración de Soluciones.
 
-## Author
+## Autor
 Patricio Araya González. 
 ### Contacto
 patricio.araya@alumnos.ucn.cl
